@@ -137,6 +137,7 @@ class HBNBCommand(cmd.Cmd):
                 lt = param.split("=")
                 if lt[1][0] == "\"" and lt[1][-1] == "\"":
                     lt[1] = lt[1][1:-1]
+                    lt[1] = lt[1].replace("_", " ")
                 else:
                     try:
                         lt[1] = int(lt[1])
