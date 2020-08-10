@@ -355,8 +355,8 @@ class HBNBCommand(cmd.Cmd):
     def param_ver(self, string):
         """ verifies if params is acceptable name="California" """
         p_str = re.compile('\w+=".+"')
-        p_float = re.compile('\w+=\d+\.\d+')
-        p_int = re.compile('\w+=\d+')
+        p_float = re.compile('\w+=-*\d+\.\d+')
+        p_int = re.compile('\w+=-*\d+')
         if p_str.match(string) == None and\
             p_float.match(string) == None and\
             p_int.match(string) == None:
