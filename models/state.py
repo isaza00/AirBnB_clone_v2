@@ -22,6 +22,6 @@ class State(BaseModel):
         for key, value in filestorage.items():
             lista = key.split()
             if lista[0] == "City":
-                if value.to_dict()[state_id] == self.id:
+                if value.to_dict()["state_id"] == self.id:
                     cities.append(value)
         return cities

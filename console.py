@@ -135,7 +135,8 @@ class HBNBCommand(cmd.Cmd):
         for param in lista[1:]:
             if self.param_ver(param):
                 lt = param.split("=")
-                if lt[1][0] == "\"" and lt[1][-1] == "\"":
+                if lt[1][0] == "\"" and lt[1][-1] == "\"" or\
+                    lt[1][0] == "'" and lt[1][-1] == "'":
                     lt[1] = lt[1][1:-1]
                     lt[1] = lt[1].replace("_", " ")
                 else:
@@ -353,7 +354,7 @@ class HBNBCommand(cmd.Cmd):
 
     def param_ver(self, string):
         """ verifies if params is acceptable name="California" """
-        p_str = re.compile('\w+="\w+"')
+        p_str = re.compile('\w+=".+"')
         p_float = re.compile('\w+=\d+\.\d+')
         p_int = re.compile('\w+=\d+')
         if p_str.match(string) == None and\
