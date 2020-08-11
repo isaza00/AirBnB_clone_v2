@@ -60,8 +60,6 @@ class DBStorage:
                     dic[key] = row
         return dic
 
-        
-
     def new(self, obj):
         """ add the object to the current database session """
         DBStorage.__session.add(obj)
