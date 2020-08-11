@@ -43,6 +43,7 @@ class DBStorage:
         dic = {}
         models = {'State': State,
                   'City': City,
+                  'User': User
                   }
         if cls is None:
             querys = []
