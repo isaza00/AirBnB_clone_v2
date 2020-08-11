@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from models import storage
+import os
 
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
@@ -17,6 +17,9 @@ class State(BaseModel):
     @property
     def cities(self):
         """ getter method for cities """
+        from models import storage
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+            return
         cities = []
         filestorage = storage._FileStorage__objects
         for key, value in filestorage.items():

@@ -3,17 +3,23 @@
 
 import os
 from sqlalchemy import (create_engine)
-from base_model import Base
-from sqlalchemy.orm import sessionmaker
+from models.base_model import Base, BaseModel
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+from models.user import User
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 USER = os.getenv('HBNB_MYSQL_USER')
-PWD = os.getenv('HBNB_MYSQL_USER')
+PWD = os.getenv('HBNB_MYSQL_PWD')
 HOST = os.getenv('HBNB_MYSQL_HOST')
 DB = os.getenv('HBNB_MYSQL_DB')
 ENV = os.getenv('HBNB_ENV')
 
-Base.metadata.create_all(engine)
 
 class DBStorage:
     """class for db storage"""
@@ -30,14 +36,47 @@ class DBStorage:
                                              DB),
         pool_pre_ping=True)
         if ENV == "test":
-            Base.metadata.drop_all(engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        self.session = 
+        """ show all objects cls as dictionary """
+        dic = {}
+        models = {'State': State,
+                  'City': City,
+                  }
+        if cls is None:
+            querys = []
+            for cls in models:
+                model = models[cls]
+                query = DBStorage.__session.query(model)
+                for row in query:
+                    key = row.__class__.__name__ + '.' + row.id
+                    dic[key] = row
+        else:
+            model = models[cls]
+            query = DBStorage.__session.query(model)
+            for row in query:
+                    key = row.__class__.__name__ + '.' + row.id
+                    dic[key] = row
+        return dic
 
-    query on the current database session (self.__session) all objects depending of the class name (argument cls)
-    if cls=None, query all types of objects (User, State, City, Amenity, Place and Review)
-    this method must return a dictionary: (like FileStorage)
-        key = <class-name>.<object-id>
-        value = object
+        
 
+    def new(self, obj):
+        """ add the object to the current database session """
+        DBStorage.__session.add(obj)
+
+    def save(self):
+        """ commit all changes of the current db session """
+        DBStorage.__session.commit()
+
+    def delete(self, obj=None):
+        """ delete from the current db session obj if not None """
+        DBStorage.__session.delete(obj)
+
+    def reload(self):
+        """ create all tables in db """
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        DBStorage.__session = Session()

@@ -3,6 +3,7 @@
 import cmd
 import sys
 import re
+import os
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -11,6 +12,9 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+
+
+STOR = os.getenv('HBNB_TYPE_STORAGE')
 
 
 class HBNBCommand(cmd.Cmd):
@@ -232,17 +236,23 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-
+        dic = {}
+        if STOR == 'db':
+            dic.update(storage.all())
+        else:
+            dic.update(storage._FileStorage__objects)
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            if STOR == 'db':
+                dic.update(storage.all(args))
+            for k, v in dic.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in dic.items():
                 print_list.append(str(v))
 
         print(print_list)
