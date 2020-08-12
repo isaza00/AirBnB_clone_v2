@@ -43,10 +43,6 @@ class DBStorage:
         dic = {}
         models = {'State': State,
                   'City': City,
-                  'User': User,
-                  'Amenity': Amenity,
-                  'Review': Review,
-                  'Place': Place
                   }
         if cls is None:
             for cls in models:
