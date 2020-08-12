@@ -61,15 +61,9 @@ class Place(BaseModel, Base):
     @property
     def amenities(self):
         """ getter method for amenities """
-        from models import storage
-        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-            return
-        amenities = []
-        filestorage = storage._FileStorage__objects
-        for key, value in filestorage.items():
-            lista = key.split(".")
-            if lista[0] == "Amenity":
-                for id in self.amenities_id:
-                    if value.to_dict()["place_id"] == id:
-                        amenities.append(value)
-        return amenities
+        pass
+
+    @amenities.setter
+    def amenities(self, value):
+        """ setter method for amenities """
+        pass
