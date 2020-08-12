@@ -8,4 +8,3 @@ class Amenity(BaseModel):
     """Amenities of places"""
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
-
