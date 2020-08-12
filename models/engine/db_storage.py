@@ -44,7 +44,9 @@ class DBStorage:
         models = {'State': State,
                   'City': City,
                   'User': User,
-                  'Place': Place
+                  'Place': Place,
+                  'Review': Review,
+                  'Amenity': Amenity
                   }
         if cls is None:
             for cls in models:
