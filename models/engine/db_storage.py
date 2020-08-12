@@ -49,14 +49,17 @@ class DBStorage:
                 model = models[cls]
                 query = DBStorage.__session.query(model)
                 for row in query:
+                    delattr(row, '_sa_instance_state')
                     key = row.__class__.__name__ + '.' + row.id
                     dic[key] = row
+                    
         else:
             model = models[cls]
             query = DBStorage.__session.query(model)
             for row in query:
-                    key = row.__class__.__name__ + '.' + row.id
-                    dic[key] = row
+                delattr(row, '_sa_instance_state')
+                key = row.__class__.__name__ + '.' + row.id
+                dic[key] = row
         return dic
 
     def new(self, obj):

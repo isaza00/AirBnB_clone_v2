@@ -237,21 +237,17 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
         dic = {}
-        if STOR == 'db':
-            dic.update(storage.all())
-        else:
-            dic.update(storage._FileStorage__objects)
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            if STOR == 'db':
-                dic.update(storage.all(args))
+            dic.update(storage.all(args))
             for k, v in dic.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
+            dic.update(storage.all())
             for k, v in dic.items():
                 print_list.append(str(v))
 
