@@ -57,13 +57,3 @@ class Place(BaseModel, Base):
                 if value.to_dict()["place_id"] == self.id:
                     reviews.append(value)
         return reviews
-
-    @property
-    def amenities(self):
-        """ getter method for amenities """
-        pass
-
-    @amenities.setter
-    def amenities(self, value):
-        """ setter method for amenities """
-        pass
