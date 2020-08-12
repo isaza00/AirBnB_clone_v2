@@ -73,10 +73,3 @@ class Place(BaseModel, Base):
                     if value.to_dict()["place_id"] == id:
                         amenities.append(value)
         return amenities
-
-    @amenities.setter
-    def amenities(self, obj):
-        """ setter method for amenities """
-        if not isinstance(obj, Amenity):
-            return
-        Place.amenity_ids.append(obj.id)
