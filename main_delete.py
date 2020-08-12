@@ -36,12 +36,10 @@ print("Another State: {}".format(another_state))
 all_states = fs.all(State)
 print("All States: {}".format(len(all_states.keys())))
 for state_key in all_states.keys():
-    print(all_states[state_key])
+    print(all_states[state_key])        
 
 # Delete the new State
-third_state = State()
-third_state.name = "arizona"
-fs.delete(third_state)
+fs.delete(new_state)
 
 # All States
 all_states = fs.all(State)
