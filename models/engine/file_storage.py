@@ -60,5 +60,5 @@ class FileStorage:
             return
         for key, value in FileStorage.__objects.copy().items():
             if obj.to_dict() == value.to_dict():
-                del FileStorage.__objects[key]
+                FileStorage.__objects.pop(key, None)
         self.save()
