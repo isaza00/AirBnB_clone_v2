@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+import os
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -18,3 +19,21 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = []
+    reviews = relationship("Review",
+                          backref='place',
+                          cascade="all, delete-orphan")
+
+    @property
+    def reviews(self):
+        """ return reviews for place """
+        from models import storage
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+            return
+        reviews = []
+        filestorage = storage._FileStorage__objects
+        for key, value in filestorage.items():
+            lista = key.split(".")
+            if lista[0] == "Review":
+                if value.to_dict()["place_id"] == self.id:
+                    reviews.append(value)
+        return reviews
