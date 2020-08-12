@@ -43,10 +43,9 @@ class DBStorage:
         dic = {}
         models = {'State': State,
                   'City': City,
-                  'User': User
+                  'User': User,
                   }
         if cls is None:
-            querys = []
             for cls in models:
                 model = models[cls]
                 query = DBStorage.__session.query(model)

@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 
 
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
-    city_id = Column(String(60), nullable=False, ForeignKey(cities.id))
-    user_id = Column(String(60), nullable=False, ForeignKey(users.id))
+    city_id = Column(String(60), nullable=False, ForeignKey('cities.id'))
+    user_id = Column(String(60), nullable=False, ForeignKey('users.id'))
     name = Column(String(128), nullable=False)
     description = Column(String(1024))
     number_rooms = Column(integer, nullable=False, default=0)
