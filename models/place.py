@@ -57,3 +57,30 @@ class Place(BaseModel, Base):
                 if value.to_dict()["place_id"] == self.id:
                     reviews.append(value)
         return reviews
+
+    @property
+    def amenities(self):
+        """ getter method for amenities """
+        from models import storage
+        from models.amenity import Amenity
+        result = []
+        for key, obj in storage.all(Amenity).items():
+            for aid in self.amenity_ids:
+                if aid == obj.id:
+                    result.append(obj)
+        return result
+
+    @amenities.setter
+    def amenities(self, value):
+        """ setter method for amenities """
+        from models import storage
+        from models.amenity import Amenity
+        from datetime import datetime
+        lili = self.amenity_ids
+        if not isinstance(value, Amenity):
+            return
+        lili.append(value.id)
+        self.updated_at = datetime.now()
+        setattr(self, 'amenity_ids', lili)
+        storage.all().update({self.to_dict()['__class__'] + '.' + self.id: self})
+        storage.save()
