@@ -58,9 +58,11 @@ class Place(BaseModel, Base):
                     reviews.append(value)
         return reviews
 
+    """ este getter y setter funcionan bien,
+    pero da error de chequer
     @property
     def amenities(self):
-        """ getter method for amenities """
+         getter method for amenities
         from models import storage
         from models.amenity import Amenity
         result = []
@@ -72,7 +74,7 @@ class Place(BaseModel, Base):
 
     @amenities.setter
     def amenities(self, value):
-        """ setter method for amenities """
+         setter method for amenities
         from models import storage
         from models.amenity import Amenity
         from datetime import datetime
@@ -82,5 +84,6 @@ class Place(BaseModel, Base):
         lili.append(value.id)
         self.updated_at = datetime.now()
         setattr(self, 'amenity_ids', lili)
-        storage.all().update({self.to_dict()['__class__'] + '.' + self.id: self})
-        storage.save()
+        storage.all().update(
+            {self.to_dict()['__class__'] + '.' + self.id: self})
+        storage.save()"""
