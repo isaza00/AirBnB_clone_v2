@@ -9,6 +9,7 @@ import re
 env.hosts = ['34.74.112.45', '35.237.185.184']
 
 
+@runs_once
 def do_pack():
     """ generarates .tgz archive from web_static folder """
     local("mkdir -p versions")
@@ -25,27 +26,30 @@ def do_deploy(archive_path):
     """ distributes an archive to web servers """
     if not os.path.exists(archive_path):
         return False
-    try:
-        upload = put(archive_path, "/tmp", use_sudo=True)
-        path = re.compile("versions\/(.+)\.tgz")
-        file_name = path.search(archive_path).group(1)
-        create_folder = run("sudo mkdir -p /data/web_static/releases/{}/".
-                            format(file_name))
-        unzip = run("sudo tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}/".
-                    format(file_name, file_name))
-        remove_archive = run("sudo rm /tmp/{}.tgz".format(file_name))
-        string1 = "sudo mv /data/web_static/releases/{}/web_static/*"
-        string2 = "/data/web_static/releases/{}/"
-        string = string1 + " " + string2
-        move_files = run(string.format(file_name, file_name))
-        rm_webstatic = run("sudo rm -rf /data/web_static/releases/{}/web_static".
+    upload = put(archive_path, "/tmp", use_sudo=True)
+    path = re.compile("versions\/(.+)\.tgz")
+    file_name = path.search(archive_path).group(1)
+    create_folder = run("sudo mkdir -p /data/web_static/releases/{}/".
                         format(file_name))
-        rm_link = run("sudo rm -rf /data/web_static/current")
-        s = "sudo ln -s /data/web_static/releases/{}/ /data/web_static/current"
-        create_l = run(s.format(file_name))
+    unzip = run("sudo tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}/".
+                format(file_name, file_name))
+    remove_archive = run("sudo rm /tmp/{}.tgz".format(file_name))
+    string1 = "sudo mv /data/web_static/releases/{}/web_static/*"
+    string2 = "/data/web_static/releases/{}/"
+    string = string1 + " " + string2
+    move_files = run(string.format(file_name, file_name))
+    rm_webstatic = run("sudo rm -rf /data/web_static/releases/{}/web_static".
+                       format(file_name))
+    rm_link = run("sudo rm -rf /data/web_static/current")
+    s = "sudo ln -s /data/web_static/releases/{}/ /data/web_static/current"
+    create_l = run(s.format(file_name))
+    if upload.succeeded and create_folder.succeeded\
+        and create_folder.succeeded and unzip.succeeded\
+            and remove_archive.succeeded and move_files.succeeded\
+            and rm_webstatic.succeeded and rm_link.succeeded\
+            and create_l.succeeded:
         return True
-    except Exception:
-        return False
+    return False
 
 
 def deploy():
