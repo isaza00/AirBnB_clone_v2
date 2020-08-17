@@ -16,7 +16,6 @@ def do_pack():
     now = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     r = local("tar -cvzf versions/web_static_{}.tgz ./web_static".
               format(now), capture=True)
-    print("r:", r)
     if r.succeeded:
         return ("versions/web_static_{}.tgz".format(now))
     else:
