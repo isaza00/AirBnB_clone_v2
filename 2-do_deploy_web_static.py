@@ -9,6 +9,7 @@ import re
 env.hosts = ['34.74.112.45', '35.237.185.184']
 
 
+@runs_once
 def do_pack():
     """ generarates .tgz archive from web_static folder """
     local("mkdir -p versions")
