@@ -119,15 +119,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class
-        Command syntax: create <Class name> <param 1> <param 2> <param 3>...
-        Param syntax: <key name>=<value>
-        Value syntax:
-        String: "<value>" => starts with a double quote
-        any double quote inside the value must be escaped with a backslash \
-        all underscores _ must be replace by spaces . Example: You want to set the string My little house to the attribute name, your command line must be name="My_little_house"
-        Float: <unit>.<decimal> => contains a dot .
-        Integer: <number> => default case """
+        """ Create an object of any class """
         lista = args.split()
         if not lista:
             print("** class name missing **")
@@ -140,7 +132,7 @@ class HBNBCommand(cmd.Cmd):
             if self.param_ver(param):
                 lt = param.split("=")
                 if lt[1][0] == "\"" and lt[1][-1] == "\"" or\
-                    lt[1][0] == "'" and lt[1][-1] == "'":
+                   lt[1][0] == "'" and lt[1][-1] == "'":
                     lt[1] = lt[1][1:-1]
                     lt[1] = lt[1].replace("_", " ")
                 else:
@@ -236,7 +228,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-        dic = {}
+
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
@@ -247,7 +239,7 @@ class HBNBCommand(cmd.Cmd):
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            dic.update(storage.all())
+            dic.update(storage.all(args))
             for k, v in dic.items():
                 print_list.append(str(v))
 
@@ -363,9 +355,9 @@ class HBNBCommand(cmd.Cmd):
         p_str = re.compile('\w+=".+"')
         p_float = re.compile('\w+=-*\d+\.\d+')
         p_int = re.compile('\w+=-*\d+')
-        if p_str.match(string) == None and\
-            p_float.match(string) == None and\
-            p_int.match(string) == None:
+        if p_str.match(string) is None and\
+            p_float.match(string) is None and\
+                p_int.match(string) is None:
             return False
         return True
 

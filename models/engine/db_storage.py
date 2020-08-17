@@ -56,7 +56,7 @@ class DBStorage:
                     delattr(row, '_sa_instance_state')
                     key = row.__class__.__name__ + '.' + row.id
                     dic[key] = row
-                    
+
         else:
             model = models[cls]
             query = DBStorage.__session.query(model)

@@ -68,7 +68,9 @@ class TestConsole(unittest.TestCase):
     def test_quit(self):
         """Test quit command"""
         with patch('sys.stdout', new=StringIO()) as f:
+            print("XXXXXXXXXXXXXXXXXX", f.getvalue())
             self.consol.onecmd("quit")
+            print("XXXXXXXXXXXXXXXXXX", f.getvalue())
             self.assertEqual('', f.getvalue())
 
     def test_create(self):
@@ -131,6 +133,8 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all qwerty")
             self.assertEqual("** class doesn't exist **\n", f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd('create State')
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all State")
             self.assertNotEqual("[]\n", f.getvalue())

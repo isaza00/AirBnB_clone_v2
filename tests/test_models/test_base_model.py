@@ -37,7 +37,7 @@ class test_basemodel(unittest.TestCase):
         i = self.value()
         copy = i.to_dict()
         new = BaseModel(**copy)
-        self.assertFalse(new is i)
+        self.assertEqual(new.id, i.id)
 
     def test_kwargs_int(self):
         """ """
@@ -72,12 +72,6 @@ class test_basemodel(unittest.TestCase):
         """ """
         n = {None: None}
         with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    def test_kwargs_one(self):
-        """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
             new = self.value(**n)
 
     def test_id(self):
