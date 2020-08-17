@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 #install nginx and folders in server
-if ! which nginx > /dev/null 2>&1; then
-    apt-get -y update
-    apt-get -y install nginx
-    ufw allow 'Nginx HTTP'
-fi
+apt-get -y update
+apt-get -y install nginx
 mkdir -p /data/web_static/releases/test
 mkdir -p /data/web_static/shared/
 echo "I am working" > /data/web_static/releases/test/index.html
