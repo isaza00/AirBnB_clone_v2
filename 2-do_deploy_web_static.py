@@ -9,6 +9,7 @@ import re
 env.hosts = ['34.74.112.45', '35.237.185.184']
 
 
+@runs_once
 def do_pack():
     """ generarates .tgz archive from web_static folder """
     local("mkdir -p versions")
@@ -23,7 +24,7 @@ def do_pack():
 
 def do_deploy(archive_path):
     """ distributes an archive to web servers """
-    if not os.path.exists(archive_path):
+    if not os.path.isfile(archive_path):
         return False
     upload = put(archive_path, "/tmp", use_sudo=True)
     path = re.compile("versions\/(.+)\.tgz")
