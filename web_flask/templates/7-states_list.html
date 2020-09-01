@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        <H1>States</H1>
+        <UL>
+            {% for k in dic.keys()|sort %}
+                <LI>{{ dic[k] }}: <B>{{ k }}</B></LI>
+            {% endfor %}
+        </UL>
+    </BODY>
+</HTML>
