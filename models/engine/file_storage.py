@@ -12,11 +12,20 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         dic = {}
         if cls is None:
-                return FileStorage.__objects
+            for key, value in FileStorage.__objects.copy().items():
+                value.__dict__.pop("_sa_instance_state", None)
+                dic[key] = value
+            return FileStorage.__objects
         for key, value in FileStorage.__objects.items():
             lista = key.split(".")
-            if lista[0] == cls.__name__:
-                dic[key] = value
+            if type(cls) is str:
+                if lista[0] == cls:
+                    value.__dict__.pop("_sa_instance_state", None)
+                    dic[key] = value
+            else:
+                if lista[0] == cls.__name__:
+                    value.__dict__.pop("_sa_instance_state", None)
+                    dic[key] = value
         return dic
 
     def new(self, obj):
@@ -63,3 +72,7 @@ class FileStorage:
             if obj.to_dict() == value.to_dict():
                 FileStorage.__objects.pop(key, None)
         self.save()
+
+    def close(self):
+        """ call reload() for deserializing """
+        self.reload()
