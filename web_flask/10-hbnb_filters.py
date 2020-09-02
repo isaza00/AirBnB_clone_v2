@@ -5,6 +5,7 @@ from flask import Flask, render_template, g
 from models import storage
 from models.state import State
 from models.city import City
+from models.amenity import Amenity
 
 
 app = Flask(__name__)
@@ -16,10 +17,14 @@ def teardown_db(self):
 
 
 @app.route('/hbnb_filters', strict_slashes=False)
-def states_list():
+def hbnb_filters():
     """ displays list of cities by states"""
-    
-    return render_template('10-hbnb_filters.html')
+    states = list(storage.all(State).values())
+    amenities = list(storage.all(Amenity).values())
+    return render_template('10-hbnb_filters.html',
+                           states=states,
+                           amenities=amenities)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
