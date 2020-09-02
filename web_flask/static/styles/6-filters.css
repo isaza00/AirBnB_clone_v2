@@ -71,12 +71,15 @@
 }
 .popover {
 	visibility: hidden;
+	overflow:hidden;
+	overflow-y:scroll;
 	background-color: #FAFAFA;
 	border:1px solid #DDDDDD;
 	border-radius: 4px;
 	margin: 0;
 	padding: 0;
 	width: 100%;
+	max-height: 300px;
 	vertical-align: middle;
 	z-index: 10;
 }
