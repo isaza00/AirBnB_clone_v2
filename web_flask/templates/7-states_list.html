@@ -6,8 +6,8 @@
     <BODY>
         <H1>States</H1>
         <UL>
-            {% for k in dic.keys()|sort %}
-                <LI>{{ dic[k] }}: <B>{{ k }}</B></LI>
+            {% for state in states|sort(attribute='name') %}
+                <LI>{{ state['id'] }}: <B>{{ state.name }}</B></LI>
             {% endfor %}
         </UL>
     </BODY>

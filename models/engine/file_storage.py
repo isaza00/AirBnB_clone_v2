@@ -13,18 +13,15 @@ class FileStorage:
         dic = {}
         if cls is None:
             for key, value in FileStorage.__objects.copy().items():
-                value.__dict__.pop("_sa_instance_state", None)
                 dic[key] = value
             return FileStorage.__objects
         for key, value in FileStorage.__objects.items():
             lista = key.split(".")
             if type(cls) is str:
                 if lista[0] == cls:
-                    value.__dict__.pop("_sa_instance_state", None)
                     dic[key] = value
             else:
                 if lista[0] == cls.__name__:
-                    value.__dict__.pop("_sa_instance_state", None)
                     dic[key] = value
         return dic
 
